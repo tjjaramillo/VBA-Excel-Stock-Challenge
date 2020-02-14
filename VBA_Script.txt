@@ -1,0 +1,140 @@
+Sub VBA_Exercise():
+
+'Loop through every sheet in workbook
+
+For Each ws In Worksheets
+
+'Header labels
+
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "Yearly Change"
+ws.Cells(1, 11).Value = "Percent Change"
+ws.Cells(1, 12).Value = "Total Stock Volume"
+ws.Cells(2, 14).Value = "Greatest Percent Increase"
+ws.Cells(3, 14).Value = "Greatest Percent Decrease"
+ws.Cells(4, 14).Value = "Greatest Total Volume"
+ws.Columns("K").NumberFormat = "0.00%"
+
+Dim LastRow As Long
+Dim TickerRow As Integer
+Dim TotalVolume As Double
+Dim OpenStock As Double
+Dim CloseStock As Double
+Dim LastYearChangeRow As Double
+Dim Max As Double
+TotalStockVolume = 0
+TickerRow = 2
+StockRow = 2
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+        
+        For i = 2 To LastRow
+
+            'Initiate sequence when ticker symbol changes
+            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+
+            ' Capture ticker symbol when the symbol changes so we can have distinct ticker values
+                ws.Cells(TickerRow, 9).Value = ws.Cells(i, 1).Value
+
+            'Capture the opening stock value to calculate the yearly change and percent change later
+                OpenStock = ws.Cells(StockRow, 3).Value
+                StockRow = i + 1
+                
+
+            ' Capture the last stock volume and add it to total and place the total under designated column
+                TotalStockVolume = TotalStockVolume + ws.Cells(i, 7).Value
+                ws.Cells(TickerRow, 12).Value = TotalStockVolume
+
+            ' Capture the closing stock value
+
+                CloseStock = ws.Cells(i, 6).Value
+
+            ' Place the yearly change in the designated column
+           
+                ws.Cells(TickerRow, 10).Value = (CloseStock - OpenStock)
+                
+            ' Calculate the percent change and place it in designated column
+             
+                If OpenStock = 0 Then
+                    ws.Cells(TickerRow, 11).Value = 0
+                Else
+                    ws.Cells(TickerRow, 11).Value = ((CloseStock - OpenStock) / OpenStock)
+                End If
+
+            ' Move ticker row down and reset the total stock volume
+                TickerRow = TickerRow + 1
+                TotalStockVolume = 0
+
+            Else
+            
+            ' Collect stock volumes while looping until the ticker symbol changes
+            
+               TotalStockVolume = TotalStockVolume + ws.Cells(i, 7).Value
+
+            End If
+        
+        Next i
+
+        
+        ' Set conditional formatting for Yearly Change column
+        LastYearChangeRow = ws.Cells(Rows.Count, 10).End(xlUp).Row
+               
+            For i = 2 To LastYearChangeRow
+            
+                If ws.Cells(i, 10).Value > 0 Then
+            
+                ws.Cells(i, 10).Interior.ColorIndex = 4
+                
+                ElseIf ws.Cells(i, 10).Value < 0 Then
+            
+                ws.Cells(i, 10).Interior.ColorIndex = 3
+                
+                End If
+             
+        Next i
+        
+        ''''''''''''''''''''''''''Challenge portion'''''''''''''''''''''''''''''''''''
+        'Capture the greatest percentage increase and place it in the designated column
+
+        Max = 0
+        For i = 2 To LastYearChangeRow
+        
+            If ws.Cells(i, 11).Value > Max Then
+        
+                Max = ws.Cells(i, 11).Value
+        
+            End If
+            
+        Next i
+        
+        ws.Cells(2, 15).Value = Max
+        
+        'Same for greatest percentage decrease
+        Min = 0
+        For i = 2 To LastYearChangeRow
+        
+            If ws.Cells(i, 11).Value < Min Then
+        
+                Min = ws.Cells(i, 11).Value
+        
+            End If
+            
+        Next i
+        
+        ws.Cells(3, 15).Value = Min
+        
+        'And finally, same concept for greatest total stock volume
+        Max = 0
+        For i = 2 To LastYearChangeRow
+        
+            If ws.Cells(i, 12).Value > Max Then
+        
+             Max = ws.Cells(i, 12).Value
+        
+            End If
+            
+        Next i
+        
+        ws.Cells(4, 15).Value = Max
+    Next ws
+
+End Sub
