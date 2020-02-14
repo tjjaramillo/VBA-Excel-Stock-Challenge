@@ -1,2 +1,2 @@
 # VBA-homework
-VBA exercise containing main scripts to run analysis. 
+VBA exercise containing main script to run analysis along with screenshots of spreadsheets.
