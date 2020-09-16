@@ -1,4 +1,4 @@
-# VBA-homework
+# Stock Summarization Using VBA in Excel
 
 ## Background
 
@@ -20,6 +20,6 @@ You are well on your way to becoming a programmer and Excel master! In this home
 
 ### CHALLENGES
 
-1. Your solution will also be able to return the stock with the "Greatest % increase", "Greatest % Decrease" and "Greatest total volume". The solution will look as follows:
+* Your solution will also be able to return the stock with the "Greatest % increase", "Greatest % Decrease" and "Greatest total volume". The solution will look as follows:
 
-2. Make the appropriate adjustments to your VBA script that will allow it to run on every worksheet, i.e., every year, just by running the VBA script once.
+* Make the appropriate adjustments to your VBA script that will allow it to run on every worksheet, i.e., every year, just by running the VBA script once.
