@@ -1,5 +1,7 @@
 # Stock Summarization Using VBA in Excel
 
+![Stocks](images/stocks.jpg)
+
 ## Background
 
 In this repository I used VBA scripting to analyze real stock market data in CSV format. These CSV files contained three years of stock data and more than 2 million rows.
